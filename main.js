@@ -1,6 +1,7 @@
 let model = {
     boardSize: 10,
-    shipsNumber: 5,
+    level: 1,
+    shipsNumber: 0,
     shipsSunk: 0,
     shipLength: 3,
     ships: [
@@ -16,14 +17,14 @@ let model = {
             let index = ship.locations.indexOf(guess);
             if (index > -1) {
                 ship.hits[index] = "hit";
-                document.getElementById(guess).classList.add("hit")
+                get(guess).classList.add("hit")
                 if (this.isSunk(ship)) {
                     this.shipsSunk++;
                 }
                 return true;
             }
         }
-        document.getElementById(guess).classList.add("miss")
+        get(guess).classList.add("miss")
         return false;
     },
     isSunk(ship) {
@@ -83,11 +84,11 @@ let model = {
 
 let controller = {
     usedGuesses: 0,
-    leftGuesses: 30,
+    leftGuesses: 0,
     processGuess(guess) {
         this.usedGuesses++
         this.leftGuesses--
-        console.log(this.usedGuesses, this.leftGuesses)
+        get("leftGuesses").innerText = this.leftGuesses
         if (this.leftGuesses !== 0) {
             let hit = model.fire(guess)
             if (hit && model.shipsSunk === model.shipsNumber) {
@@ -98,28 +99,55 @@ let controller = {
             document.querySelector(".text").innerText =
                 `Sorry, you failed :(`
         }
-
     }
 }
 
 window.onload = function() {
-    function initGame(shipsNumber = 5, leftGuesses = 35) {
+
+    function changeLevel(shipsNumber = 5, leftGuesses = 50) {
+
+        controller.usedGuesses = 0
         model.shipsNumber = shipsNumber
         controller.leftGuesses = leftGuesses
+        get("leftGuesses").innerText = controller.leftGuesses
         model.generateShipLocations();
         let cells = document.querySelectorAll('td')
         for (let cell of cells) {
             cell.classList.remove('hit')
             cell.classList.remove('miss')
+        }
+    }
+
+    function initGame() {
+        let cells = document.querySelectorAll('td')
+        for (let cell of cells) {
             cell.addEventListener('click', function(e) {
                 let guess = e.target.id
                 controller.processGuess(guess)
             })
         }
     }
+
     initGame()
+    changeLevel()
 
+    get('restart').addEventListener('click', function() {
+        changeLevel()
+    })
+    get('easyLevel').addEventListener('click', function() {
+        changeLevel()
+    })
+    get('normalLevel').addEventListener('click', function() {
+        changeLevel(3, 40)
+    })
+    get('hardLevel').addEventListener('click', function() {
+        changeLevel(1,20)
+    })
 
+}
+
+function get(id) {
+    return document.getElementById(id)
 }
 
 
