@@ -1,18 +1,45 @@
+@mainFont: 22px "Franklin Gothic Medium";
+
 body {
-    background-color: #000;
-    padding: 50px;
+    background-color: #17223b;
 }
 #message {
     text-align: center;
-    margin: 0 auto 50px;
+    margin: 20px auto;
     width: 50%;
-    background-color: #6635c7;
-    border-radius: 30px;
-    padding: 10px;
+    padding: 5px;
 }
 .text {
     color: #fff;
-    font: 25px "Franklin Gothic Medium";
+    font: @mainFont;
+    margin: 0;
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+.navigation {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+ }
+.button {
+    display: block;
+    font: @mainFont;
+    text-transform: uppercase;
+    height: 50px;
+    width: 300px;
+    margin-bottom: 5px;
+    transition: all .7s;
+    border: none;
+    background-image: linear-gradient(-40deg, #ff6768 40%, #6b778d 100%);
+    &:hover {
+        width: 350px;
+        transition: all .7s;
+    }
+}
+#board {
+    margin-right: 10%;
 }
 table {
     border-spacing: 0;
@@ -22,14 +49,14 @@ td {
     border: 1px solid aliceblue;
     width: 80px;
     height: 80px;
-    background-color: #32038b;
+    box-sizing: border-box;
+    background-color: #263859;
     &:hover:not(.hit, .miss) {
-        background-color: #6635c7;
+        border: 2px solid #ff6768;
     }
 }
 .hit {
     background-image: url("./images/ship.png");
-    background-color: #6635c7;
 }
 .miss {
     background-image: url("./images/miss.png");

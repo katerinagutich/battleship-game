@@ -1,9 +1,11 @@
 let model = {
-    boardSize: 7,
-    shipsNumber: 1,
+    boardSize: 10,
+    shipsNumber: 5,
     shipsSunk: 0,
     shipLength: 3,
     ships: [
+        {locations: [0, 0, 0], hits: ["", "", ""]},
+        {locations: [0, 0, 0], hits: ["", "", ""]},
         {locations: [0, 0, 0], hits: ["", "", ""]},
         {locations: [0, 0, 0], hits: ["", "", ""]},
         {locations: [0, 0, 0], hits: ["", "", ""]}
@@ -80,32 +82,44 @@ let model = {
 }
 
 let controller = {
-    guesses: 0,
+    usedGuesses: 0,
+    leftGuesses: 30,
     processGuess(guess) {
-        this.guesses++
-        if (this.guesses <= 20) {
+        this.usedGuesses++
+        this.leftGuesses--
+        console.log(this.usedGuesses, this.leftGuesses)
+        if (this.leftGuesses !== 0) {
             let hit = model.fire(guess)
             if (hit && model.shipsSunk === model.shipsNumber) {
                 document.querySelector(".text").innerText =
-                    `Congratulations! You've won in ${this.guesses} guesses.`
+                    `Congratulations! You've won in ${this.usedGuesses} guesses.`
             }
         } else {
             document.querySelector(".text").innerText =
-                `Sorry! You failed.`
+                `Sorry, you failed :(`
         }
 
     }
 }
 
 window.onload = function() {
-    model.generateShipLocations();
-    let cells = document.querySelectorAll('td')
-    for (let cell of cells) {
-        cell.addEventListener('click', function(e) {
-            let guess = e.target.id
-            controller.processGuess(guess)
-        })
+    function initGame(shipsNumber = 5, leftGuesses = 35) {
+        model.shipsNumber = shipsNumber
+        controller.leftGuesses = leftGuesses
+        model.generateShipLocations();
+        let cells = document.querySelectorAll('td')
+        for (let cell of cells) {
+            cell.classList.remove('hit')
+            cell.classList.remove('miss')
+            cell.addEventListener('click', function(e) {
+                let guess = e.target.id
+                controller.processGuess(guess)
+            })
+        }
     }
+    initGame()
+
+
 }
 
 
