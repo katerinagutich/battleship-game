@@ -86,10 +86,10 @@ let controller = {
     usedGuesses: 0,
     leftGuesses: 0,
     processGuess(guess) {
-        this.usedGuesses++
-        this.leftGuesses--
-        get("leftGuesses").innerText = this.leftGuesses
-        if (this.leftGuesses !== 0) {
+        if (this.leftGuesses > 0) {
+            this.usedGuesses++
+            this.leftGuesses--
+            get("leftGuesses").innerText = this.leftGuesses
             let hit = model.fire(guess)
             if (hit && model.shipsSunk === model.shipsNumber) {
                 document.querySelector(".text").innerText =
@@ -104,11 +104,30 @@ let controller = {
 
 window.onload = function() {
 
-    function changeLevel(shipsNumber = 5, leftGuesses = 50) {
+    function changeLevel(level = model.level) {
 
         controller.usedGuesses = 0
-        model.shipsNumber = shipsNumber
-        controller.leftGuesses = leftGuesses
+        switch(level) {
+            case 1: {
+                model.level = 1
+                model.shipsNumber = 5
+                controller.leftGuesses = 50
+                break;
+            }
+            case 2: {
+                model.level = 2
+                model.shipsNumber = 3
+                controller.leftGuesses = 40
+                break;
+            }
+            case 3: {
+                model.level = 3
+                model.shipsNumber = 1
+                controller.leftGuesses = 20
+                break;
+            }
+        }
+
         get("leftGuesses").innerText = controller.leftGuesses
         model.generateShipLocations();
         let cells = document.querySelectorAll('td')
@@ -135,13 +154,13 @@ window.onload = function() {
         changeLevel()
     })
     get('easyLevel').addEventListener('click', function() {
-        changeLevel()
+        changeLevel(1)
     })
     get('normalLevel').addEventListener('click', function() {
-        changeLevel(3, 40)
+        changeLevel(2)
     })
     get('hardLevel').addEventListener('click', function() {
-        changeLevel(1,20)
+        changeLevel(3)
     })
 
 }
