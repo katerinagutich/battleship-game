@@ -7,13 +7,16 @@ body {
     text-align: center;
     margin: auto;
     width: 50%;
-    height: 60px;
+    height: 100px;
     padding: 5px;
 }
 .text {
     color: #fff;
     font: @mainFont;
     margin: 0;
+    text-align: center;
+    border: 1px solid white;
+    padding: 5%;
 }
 .container {
     display: flex;
@@ -24,9 +27,13 @@ body {
     display: flex;
     flex-direction: column;
     width: 300px;
-    p {
+    div {
+        margin-top: 10%;
+        text-align: center;
+        border: 1px solid white;
+        padding: 5%;
         color: #fff;
-        font: @mainFont
+        font: @mainFont;
     }
  }
 .button {
@@ -48,6 +55,8 @@ body {
 }
 #board {
     margin: auto;
+    display: flex;
+    flex-direction: column;
 }
 table {
     border-spacing: 0;
