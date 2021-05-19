@@ -43,7 +43,6 @@ let model = {
             } while (model.collision(locations))
             this.ships[i].locations = locations;
         }
-
     },
     generateShip() {
         let direction = Math.floor(Math.random() * 2);
@@ -89,6 +88,7 @@ let controller = {
         if (this.leftGuesses > 0) {
             this.usedGuesses++
             this.leftGuesses--
+            console.log(model.ships)
             get("leftGuesses").innerText = this.leftGuesses
             let hit = model.fire(guess)
             if (hit && model.shipsSunk === model.shipsNumber) {
@@ -104,9 +104,27 @@ let controller = {
 
 window.onload = function() {
 
+    function clearBoard() {
+        let cells = document.querySelectorAll('td')
+        for (let cell of cells) {
+            cell.classList.remove('hit')
+            cell.classList.remove('miss')
+        }
+    }
+
+    function clearHits() {
+        controller.usedGuesses = 0;
+        model.shipsSunk = 0;
+        for (let ship of model.ships) {
+            ship.hits = ["", "", ""];
+        }
+    }
+
     function changeLevel(level = model.level) {
 
-        controller.usedGuesses = 0
+        clearHits()
+        clearBoard();
+
         switch(level) {
             case 1: {
                 model.level = 1
@@ -128,21 +146,22 @@ window.onload = function() {
             }
         }
 
+        document.querySelector(".text").innerText = `Your task is to find hidden three-square ships in ${controller.leftGuesses} guesses.`;
+
         get("leftGuesses").innerText = controller.leftGuesses
         model.generateShipLocations();
-        let cells = document.querySelectorAll('td')
-        for (let cell of cells) {
-            cell.classList.remove('hit')
-            cell.classList.remove('miss')
-        }
     }
 
     function initGame() {
         let cells = document.querySelectorAll('td')
         for (let cell of cells) {
             cell.addEventListener('click', function(e) {
-                let guess = e.target.id
-                controller.processGuess(guess)
+                if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
+                    e.preventDefault()
+                } else {
+                    let guess = e.target.id
+                    controller.processGuess(guess)
+                }
             })
         }
     }
