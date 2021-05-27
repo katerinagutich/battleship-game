@@ -3,32 +3,17 @@
 body {
     background-color: #17223b;
 }
-#message {
-    text-align: center;
-    margin: auto;
-    width: 50%;
-    height: 100px;
-    padding: 5px;
-}
-.text {
-    color: #fff;
-    font: @mainFont;
-    margin: 0;
-    text-align: center;
-    border: 1px solid white;
-    padding: 5%;
-}
 .container {
     display: flex;
     justify-content: space-between;
 }
 .navigation {
-    margin-top: 100px;
+    margin-top: 5rem;
     display: flex;
     flex-direction: column;
-    width: 300px;
+    width: 15rem;
     div {
-        margin-top: 10%;
+        margin-top: 1rem;
         text-align: center;
         border: 1px solid white;
         padding: 5%;
@@ -41,13 +26,13 @@ body {
     font: @mainFont;
     text-transform: uppercase;
     height: 50px;
-    width: 300px;
+    width: 15rem;
     margin-bottom: 5px;
     transition: all .7s;
     border: none;
     background-image: linear-gradient(to left, #ff6768 20%, #6b778d 100%);
     &:hover {
-        width: 350px;
+        width: 17rem;
         transition: all .7s;
         cursor: pointer;
         background-image: linear-gradient(to left, #ff6768 60%, #6b778d 100%);
@@ -55,8 +40,24 @@ body {
 }
 #board {
     margin: auto;
+    height: 50rem;
     display: flex;
     flex-direction: column;
+    align-content: space-between;
+}
+#message {
+    text-align: center;
+    margin-top: 2rem;
+    width: 100%;
+    height: 100px;
+}
+.text {
+    color: #fff;
+    font: @mainFont;
+    margin: 0;
+    text-align: center;
+    border: 1px solid white;
+    padding: 5%;
 }
 table {
     border-spacing: 0;
@@ -64,8 +65,8 @@ table {
 }
 td {
     border: 1px solid aliceblue;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     box-sizing: border-box;
     background-color: #263859;
     &:hover:not(.hit, .miss) {
@@ -74,7 +75,48 @@ td {
 }
 .hit {
     background-image: url("./images/ship.png");
+    background-size: cover;
 }
 .miss {
     background-image: url("./images/miss.png");
+    background-size: cover;
+}
+
+@media (max-width: 940px) {
+    .container {
+        flex-direction: column;
+    }
+    .navigation {
+        order: 2;
+        margin-top: 1rem;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        width: 100%;
+        div {
+            margin: 1rem auto;
+            padding: 2%;
+            width: 50%;
+        }
+    }
+    .button {
+        order: 2;
+        min-width: 50%;
+        &:hover {
+            width: 15rem;
+        }
+    }
+    #board {
+        height: 45rem;
+    }
+    #message {
+        margin-top: 0;
+        height: 50px;
+    }
+    .text {
+        padding: 3%;
+    }
+    table {
+        margin-bottom: 0;
+    }
 }
