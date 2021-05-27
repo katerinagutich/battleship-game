@@ -88,7 +88,6 @@ let controller = {
         if (this.leftGuesses > 0) {
             this.usedGuesses++
             this.leftGuesses--
-            console.log(model.ships)
             get("leftGuesses").innerText = this.leftGuesses
             let hit = model.fire(guess)
             if (hit && model.shipsSunk === model.shipsNumber) {

@@ -49,7 +49,6 @@ body {
     text-align: center;
     margin-top: 2rem;
     width: 100%;
-    height: 100px;
 }
 .text {
     color: #fff;
@@ -111,12 +110,34 @@ td {
     }
     #message {
         margin-top: 0;
-        height: 50px;
     }
     .text {
         padding: 3%;
     }
     table {
         margin-bottom: 0;
+    }
+}
+
+@media (max-width: 585px) {
+    #board {
+        height: auto;
+    }
+    td {
+        width: 10vw;
+        height: 10vw;
+    }
+    #message {
+        margin-bottom: 1rem;
+    }
+}
+@media (max-width: 500px) {
+    .button {
+        height: 3rem;
+        width: 50%;
+        margin-bottom: 5px;
+        &:hover {
+            width: 50%;
+        }
     }
 }
