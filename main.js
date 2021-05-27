@@ -11,6 +11,7 @@ let model = {
         {locations: [0, 0, 0], hits: ["", "", ""]},
         {locations: [0, 0, 0], hits: ["", "", ""]}
     ],
+    gameIsOver: false,
     fire(guess) {
         for (let i = 0; i < this.shipsNumber; i++) {
             let ship = this.ships[i];
@@ -72,7 +73,7 @@ let model = {
         for (let i = 0; i < this.shipsNumber; i++) {
             let ship = model.ships[i];
             for (let j = 0; j < locations.length; j++) {
-                if (ship.locations.indexOf(locations[j]) > -1 ) {
+                if (ship.locations.indexOf(locations[j]) > -1) {
                     return true;
                 }
             }
@@ -93,15 +94,17 @@ let controller = {
             if (hit && model.shipsSunk === model.shipsNumber) {
                 document.querySelector(".text").innerText =
                     `Congratulations! You've won in ${this.usedGuesses} guesses.`
+                model.gameIsOver = true;
             }
         } else {
             document.querySelector(".text").innerText =
                 `Sorry, you failed :(`
+            model.gameIsOver = true;
         }
     }
 }
 
-window.onload = function() {
+window.onload = function () {
 
     function clearBoard() {
         let cells = document.querySelectorAll('td')
@@ -121,10 +124,12 @@ window.onload = function() {
 
     function changeLevel(level = model.level) {
 
-        clearHits()
+        model.gameIsOver = false;
+
+        clearHits();
         clearBoard();
 
-        switch(level) {
+        switch (level) {
             case 1: {
                 model.level = 1
                 model.shipsNumber = 5
@@ -154,8 +159,8 @@ window.onload = function() {
     function initGame() {
         let cells = document.querySelectorAll('td')
         for (let cell of cells) {
-            cell.addEventListener('click', function(e) {
-                if (cell.classList.contains('hit') || cell.classList.contains('miss')) {
+            cell.addEventListener('click', function (e) {
+                if (cell.classList.contains('hit') || cell.classList.contains('miss') || model.gameIsOver) {
                     e.preventDefault()
                 } else {
                     let guess = e.target.id
@@ -168,16 +173,16 @@ window.onload = function() {
     initGame()
     changeLevel()
 
-    get('restart').addEventListener('click', function() {
+    get('restart').addEventListener('click', function () {
         changeLevel()
     })
-    get('easyLevel').addEventListener('click', function() {
+    get('easyLevel').addEventListener('click', function () {
         changeLevel(1)
     })
-    get('normalLevel').addEventListener('click', function() {
+    get('normalLevel').addEventListener('click', function () {
         changeLevel(2)
     })
-    get('hardLevel').addEventListener('click', function() {
+    get('hardLevel').addEventListener('click', function () {
         changeLevel(3)
     })
 
